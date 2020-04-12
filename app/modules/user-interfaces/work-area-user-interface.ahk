@@ -144,7 +144,7 @@ class WorkAreaUserInterface extends AppUserInterface {
       theadHTML := "<tr><th>Index</th><th>Label</th></tr>"
     } Else If (key == "monitors") {
       iconName := "fa-desktop"
-      theadHTML := "<tr><th>Index</th><th>Name</th><th>x-Coordinate</th><th>y-Coordinate</th><th>Width</th><th>Height</th></tr>"
+      theadHTML := "<tr><th>Index</th><th>Name</th><th>x-Coordinate</th><th>y-Coordinate</th><th>Width</th><th>Height</th><th>Scale x</th><th>Scale y</th></tr>"
     } Else If (key == "work-areas") {
       iconName := "fa-object-group"
       theadHTML := "<tr><th>Desktop</th><th>Index</th><th>x-Coordinate</th><th>y-Coordinate</th><th>Width</th><th>Height</th></tr>"

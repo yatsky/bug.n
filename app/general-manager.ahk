@@ -26,11 +26,12 @@ class GeneralManager {
     this.dMgr.switchToDesktop(A)
     
     this.detectWindows()
+    
+    this._init("user interfaces")
+    
     For i, item in this.desktopA[1].workAreas {
       item.arrange()
     }
-    
-    this._init("user interfaces")
     
     this._init("shell events")
   }
@@ -49,7 +50,6 @@ class GeneralManager {
     If (part == "desktops") {
       m := 0
       n := this.dMgr.getDesktopCount()
-      this.maximumWorkAreaCount := this.mMgr.monitors.Length()
       For i, item in cfg.desktops {
         this.desktops[i] := New Desktop(i, item.label)
         If (i > n) {
@@ -59,14 +59,12 @@ class GeneralManager {
         If (item.HasKey("workAreas")) {
           For j, wa in item.workAreas {
             this.desktops[i].workAreas.push(New WorkArea(i, j, wa.rect))
-            this.desktops[i].workAreas[j].isPrimary := wa.isPrimary
-            If (wa.isPrimary) {
+            ;; Only the first work area marked as `primary` will be set; later ones will be discarded.
+            If (this.desktops[i].primaryWorkArea == "" && wa.isPrimary) {
+              this.desktops[i].workAreas[j].isPrimary := True
               this.desktops[i].primaryWorkArea := this.desktops[i].workAreas[j]
             }
-            this.desktops[i].workAreas[j].showBar := wa.showBar
-            this.desktops[i].workAreas[j].layoutA := [this.desktops[i].workAreas[j].layouts[wa.layoutA[1]], this.desktops[i].workAreas[j].layouts[wa.layoutA[2]]]
           }
-          this.maximumWorkAreaCount := item.workAreas.Length() > this.maximumWorkAreaCount ? item.workAreas.Length() : this.maximumWorkAreaCount
         } Else {
           ;; If no custom work areas are defined, they are derived from the detected monitors per desktop.
           For j, item in this.mMgr.monitors {
@@ -114,15 +112,14 @@ class GeneralManager {
         this.uifaces[i]._init()
       }
       
-      wa := this.desktopA[1].primaryWorkArea
-      Loop, % this.maximumWorkAreaCount {
+      For i, item in this.mMgr.monitors {
         k := this.uifaces.Length() + 1
         this.uifaces[k] := New WorkAreaUserInterface(k)
         this.uifaces[k]["appCallFuncObject"] := ObjBindMethod(this, "_onAppCall")
         
-        If (A_Index == 1) {
+        If (item.isPrimary) {
           For key, index in cfg.defaultSystemStatusBarItems {
-            this.items.bar[key] := index
+            this.uiface[k].items.bar[key] := index
           }
           this.uifaces[k].includeAppIface := True
           this.primaryUserInterface := this.uifaces[k]
@@ -131,21 +128,13 @@ class GeneralManager {
           this.uifaces[k].updateIntervals := {}
         }
         
-        this.uifaces[k].x := wa.x
-        this.uifaces[k].y := wa.y
-        this.uifaces[k].w := wa.w
-        this.uifaces[k].h := wa.h
+        this.uifaces[k].x := item.monitorWorkArea.x
+        this.uifaces[k].y := item.monitorWorkArea.y
+        this.uifaces[k].w := item.monitorWorkArea.w ;/ item.scaleX
+        this.uifaces[k].h := item.monitorWorkArea.h ;/ item.scaleY
         
         this.uifaces[k]._init()
         this.uifaces[k].fitContent(56)
-        
-        i := A_Index
-        For j, item in this.desktops {
-          If (i <= item.workAreas.Length()) {
-            item.workAreas[i].uiface := this.uifaces[k]
-            logger.debug("User interface " . k . " associated with work area " . i . " on desktop " . j . ".", "GeneralManager._init")
-          }
-        }
       }
       
       ;; "<tr><th>Index</th><th>Label</th></tr>"
@@ -155,10 +144,10 @@ class GeneralManager {
       }
       this.primaryUserInterface.insertContentItems(this.primaryUserInterface.items.content["desktops"], data)
       
-      ;; "<tr><th>Index</th><th>Name</th><th>x-Coordinate</th><th>y-Coordinate</th><th>Width</th><th>Height</th></tr>"
+      ;; "<tr><th>Index</th><th>Name</th><th>x-Coordinate</th><th>y-Coordinate</th><th>Width</th><th>Height</th><th>Scale x</th><th>Scale y</th></tr>"
       data := []
       For i, item in this.mMgr.monitors {
-        data.push([item.index, item.name, item.x, item.y, item.w, item.h])
+        data.push([item.index, item.name, item.x, item.y, item.w, item.h, Format("{:i}%", item.scaleX * 100), Format("{:i}%", item.scaleY * 100)])
       }
       this.primaryUserInterface.insertContentItems(this.primaryUserInterface.items.content["monitors"], data)
       
@@ -391,21 +380,20 @@ class GeneralManager {
       For j, wnd in wa.windows {
         If (!windows.HasKey(wnd.id)) {
           ;; Window was removed from work area.
-          DetectHiddenWindows, On
-          If (!WinExist(wnd.id)) {
-            ;; Window was removed entirely.
-            If (IsObject(wnd.workArea)) {
-              wnd.workArea.removeWindow(wnd)
-              If (wnd.workArea.dIndex == desktopA.index) {
-                changes.workAreas[wnd.workArea.id] := wnd.workArea
-              }
-              this.primaryUserInterface.removeContentItems(this.primaryUserInterface.items.content["windows"], [wnd.id])
-              wnd.workArea := ""
-              this.windows[wnd.id] := ""
+          If (IsObject(wnd.workArea)) {
+            wnd.workArea.removeWindow(wnd)
+            If (wnd.workArea.dIndex == desktopA.index) {
+              changes.workAreas[wnd.workArea.id] := wnd.workArea
             }
           }
-          ;; Else: The move between desktops will be delt with later.
-          DetectHiddenWindows, Off
+          ;; Window could not be detected by `WinExist` on different desktop, even with `DetectHiddenWindows, On` (?).
+          If (this.dMgr.getWindowDesktopIndex(wnd.id) = 0) {
+            ;; Window was removed entirely.
+            this.primaryUserInterface.removeContentItems(this.primaryUserInterface.items.content["windows"], [wnd.id])
+            wnd.workArea := ""
+            this.windows[wnd.id] := ""
+          }
+          ;; Else: Adding the window to the new desktop work area will be done later.
         }
       }
     }
@@ -554,6 +542,7 @@ class GeneralManager {
   switchToWorkArea(index := 0, delta := 0, loop := False) {
     desktopA := updateActive(this.desktopA, this.desktops[this.dMgr.getCurrentDesktopIndex()])
     desktopA.switchToWorkArea(index, delta, loop)
+    this.updateBarItems()
   }
   
   toggleUserInterfaceBar() {
@@ -633,6 +622,7 @@ class Desktop {
     this.label := label
     this.workAreas := []
     this.workAreaA := []
+    this.primaryWorkArea := ""
   }
   
   getWorkArea(index := 0, rect := "") {

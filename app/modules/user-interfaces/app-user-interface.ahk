@@ -49,7 +49,7 @@ class AppUserInterface extends Rectangle {
     Gui, %i%: Default
     Gui, Destroy
     Gui, Margin, 0, 0
-    Gui, % "+AlwaysOnTop -Caption +HwndWinId +LabelUiface +LastFound +ToolWindow"
+    Gui, % "+AlwaysOnTop -Caption -DPIScale +HwndWinId +LabelUiface +LastFound +ToolWindow"
     this.winId := winId
     
     If (this.includeAppIface) {

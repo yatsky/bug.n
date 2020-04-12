@@ -25,6 +25,7 @@ class DwmBottomStackLayout {
     wndH := (windows.Length() <= this.nmaster ? 1 : this.mfact) * h
     Loop, % m {
       windows[A_Index].move(wndX, wndY, wndW, wndH)
+      windows[A_Index].runCommand("top")
       wndX += wndW
     }
     ;; Arrange windows in stack area.
@@ -37,6 +38,7 @@ class DwmBottomStackLayout {
       Loop, % n {
         i := m + A_Index
         windows[i].move(wndX, wndY, wndW, wndH)
+        windows[i].runCommand("top")
         wndX += wndW
       }
     }

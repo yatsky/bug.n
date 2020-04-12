@@ -42,6 +42,7 @@ class Customizations {
                          , {symbol: "[]=", name: "DwmTileLayout", mfact: 0.65, nmaster: 1}
                          , {symbol: "TTT", name: "DwmBottomStackLayout", mfact: 0.55, nmaster: 1}
                          , {symbol: "><>", name: "FloatingLayout"}]
+    cfg.defaultSystemStatusBarItems := {volume: 22, date: 23, time: 24}
     cfg.windowManagementRules := [{windowProperties: {desktop: 0}, break: True}   ;; Exclude hidden (?) windows.
       , {windowProperties: {class: "#32770", isPopup: True}, break: True}         ;; Exclude pop-up windows.
       , {windowProperties: {pName: "cloud-drive-ui\.exe"}, break: True}
@@ -50,7 +51,7 @@ class Customizations {
       ;, {windowProperties: {class: "#32770", pName: "Explorer\.EXE"}, break: True}
       ;; Above this line are exclusions, i.e. no `functions`, but `break: True`.
       , {functions: {setWindowFloating: False}}   ;; Set windows non-floating, if not already excluded.
-      , {windowProperties: {pName: "firefox\.exe"}, functions: {setWindowWorkArea: "1-1"}, break: True}
+      ;, {windowProperties: {pName: "firefox\.exe"}, functions: {setWindowWorkArea: "1-1"}, break: True}
       , {windowProperties: {pName: "Spotify\.exe"}, functions: {setWindowWorkArea: "1-1"}, break: True}
       , {windowProperties: {title: "D:\\development\\bug.n\\_git*"}, functions: {setWindowWorkArea: "2-1"}, break: True}
       , {functions: {setWindowWorkArea: "1"}}]    ;; Set windows to work area 1, if no `break: True` was set previously.
@@ -58,17 +59,21 @@ class Customizations {
       cfg.networkInterfaces := ["AR9002WB"]
       cfg.defaultSystemStatusBarItems := {battery: 21, volume: 22, date: 23, time: 24}
       ; cfg.userInterfaces.push({name: "SystemStatusBarUserInterface", y: 30, w: 1366, h: 19, transparency: 192})
-      ;cfg.showAllDesktops := False
-      this.onMessageDelay := {shellEvent: 0, desktopChange: 150}
-    } Else {
-      cfg.defaultSystemStatusBarItems := {volume: 22, date: 23, time: 24}
+      ; cfg.showAllDesktops := False
+      this.onMessageDelay := {shellEvent: 0, desktopChange: 200}
+      cfg.desktops := [{label: "1",    workAreas: [{rect: New Rectangle(  0, 0, 1366, 768), isPrimary: True,  showBar: True, layoutA: [1, 2]}]}
+                     , {label: "dev",  workAreas: [{rect: New Rectangle(  0, 0, 1366, 768), isPrimary: True,  showBar: True, layoutA: [1, 2]}]}
+                     , {label: "test", workAreas: [{rect: New Rectangle(  0, 0,  688, 768), isPrimary: True,  showBar: True, layoutA: [1, 3]}
+                                                 , {rect: New Rectangle(688, 0,  688, 768), isPrimary: False, showBar: True, layoutA: [1, 3]}]}
+                     , {label: "4",    workAreas: [{rect: New Rectangle(  0, 0, 1366, 768), isPrimary: True,  showBar: True, layoutA: [1, 2]}]}]
+    } Else If (A_ComputerName == "GD-000358-NBK00") {
+      cfg.defaultLayouts := [{symbol: "><>", name: "FloatingLayout"}
+                           , {symbol: "[M]", name: "DwmMonocleLayout"}
+                           , {symbol: "[]=", name: "DwmTileLayout", mfact: 0.65, nmaster: 1}
+                           , {symbol: "TTT", name: "DwmBottomStackLayout", mfact: 0.55, nmaster: 1}]
+      cfg.defaultSystemStatusBarItems := {battery: 21, volume: 22, date: 23, time: 24}
     }
     
-    cfg.desktops := [{label: "1",    workAreas: [{rect: New Rectangle(  0, 0, 1366, 768), isPrimary: True,  showBar: True, layoutA: [1, 2]}]}
-                   , {label: "dev",  workAreas: [{rect: New Rectangle(  0, 0, 1366, 768), isPrimary: True,  showBar: True, layoutA: [1, 2]}]}
-                   , {label: "test", workAreas: [{rect: New Rectangle(  0, 0,  688, 768), isPrimary: True,  showBar: True, layoutA: [1, 3]}
-                                               , {rect: New Rectangle(688, 0,  688, 768), isPrimary: False, showBar: True, layoutA: [1, 3]}]}
-                   , {label: "4",    workAreas: [{rect: New Rectangle(  0, 0, 1366, 768), isPrimary: True,  showBar: True, layoutA: [1, 2]}]}]
     
     logger.info("Custom configuration loaded.", "Customizations.__New")
   }
@@ -77,9 +82,11 @@ class Customizations {
     Global mgr
     
     ;; Overwrite hotkeys.
-    funcObject := ObjBindMethod(mgr, "switchToLayout", 1)
+    funcObject := ObjBindMethod(mgr, "switchToLayout", (A_ComputerName == "GD-000358-NBK00" ? 1 : 4))
+    Hotkey, #f, %funcObject%
+    funcObject := ObjBindMethod(mgr, "switchToLayout", (A_ComputerName == "GD-000358-NBK00" ? 2 : 1))
     Hotkey, #m, %funcObject%
-    funcObject := ObjBindMethod(mgr, "switchToLayout", 2)
+    funcObject := ObjBindMethod(mgr, "switchToLayout", (A_ComputerName == "GD-000358-NBK00" ? 3 : 2))
     Hotkey, #t, %funcObject%
   }
 }

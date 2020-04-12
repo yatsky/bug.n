@@ -25,6 +25,7 @@ class DwmTileLayout {
     wndH := Round(h / m)
     Loop, % m {
       windows[A_Index].move(wndX, wndY, wndW, wndH)
+      windows[A_Index].runCommand("top")
       wndY += wndH
     }
     ;; Arrange windows in stack area.
@@ -37,6 +38,7 @@ class DwmTileLayout {
       Loop, % n {
         i := m + A_Index
         windows[i].move(wndX, wndY, wndW, wndH)
+        windows[i].runCommand("top")
         wndY += wndH
       }
     }

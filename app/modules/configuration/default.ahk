@@ -101,5 +101,7 @@ class Configuration {
 #+d::mgr.toggleWindowHasCaption()
 #+Space::mgr.activateWindowsTaskbar()
 
+#^d::logger.setLevel(, -1)
+#^+d::logger.setLevel(, +1)
 #^q::ExitApp
 #^r::Reload

@@ -48,7 +48,7 @@ class WorkArea extends Rectangle {
   }
   
   activateWindowAtIndex(wnd, index, delta, matchFloating) {
-    currentIndex := wnd.workArea.index == this.index ? this.getWindowIndex(wnd) : 0
+    currentIndex := (IsObject(wnd.workArea) && wnd.workArea.index == this.index) ? this.getWindowIndex(wnd) : 0
     index := index == 0 ? currentIndex : index
     If (delta != 0) {
       index := this.getAdjacentWindowIndex(index, delta, matchFloating)
@@ -66,7 +66,6 @@ class WorkArea extends Rectangle {
     windows := []
     For i, wnd in this.windows {
       If (!wnd.isFloating) {
-        wnd.runCommand("top")
         windows.push(wnd)
       }
     }
