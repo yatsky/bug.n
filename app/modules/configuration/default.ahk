@@ -1,6 +1,6 @@
 /*
 :title:     bug.n/configuration/default
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
@@ -22,6 +22,17 @@ class Configuration {
                           , {symbol: "iii", name: "i3wmLayout"}]
     ;; The first item is set to be the initial layout of work areas.
     ;; Layout names are related to class names by "<Name>Layout".
+    ;; bug.n x.min
+    this.positions := [[  0,   0,  50,  50]    ;; top left
+                     , [  0,   0, 100,  50]    ;; top half
+                     , [ 50,   0,  50,  50]    ;; top right
+                     , [  0,   0,  50, 100]    ;; left half
+                     , [ 25,   0,  50, 100]    ;; centered half
+                     , [ 50,   0,  50, 100]    ;; right half
+                     , [  0,  50,  50,  50]    ;; bottom left
+                     , [  0,  50, 100,  50]    ;; bottom half
+                     , [ 50,  50,  50,  50]    ;; bottom right
+                     , [  0,   0, 100, 100]]   ;; maximized
     this.defaultSystemStatusBarItems := {network: 17, disk: 18, memory: 19, processor: 20, battery: 21, volume: 22, date: 23, time: 24}
     this.systemStatusBarUpdateInterval := 1000
     this.networkInterfaces := []
@@ -79,8 +90,6 @@ class Configuration {
 #Backspace::mgr.switchToLayout(, +1)
 #+Backspace::mgr.switchToLayout(-1)
 #Space::mgr.toggleWindowIsFloating()
-#Enter::mgr.moveWindowToWorkArea()
-#+0::mgr.moveWindowToDesktop(, 0)
 #1::mgr.switchToDesktop(1)
 #2::mgr.switchToDesktop(2)
 #3::mgr.switchToDesktop(3)
@@ -88,20 +97,36 @@ class Configuration {
 #+Tab::mgr.switchToDesktop(-1)
 #^Left::mgr.switchToDesktop(, -1, True)
 #^Right::mgr.switchToDesktop(, +1, True)
+#+0::mgr.moveWindowToDesktop(, 0)
 #+1::mgr.moveWindowToDesktop(, 1)
 #+2::mgr.moveWindowToDesktop(, 2)
 #+3::mgr.moveWindowToDesktop(, 3)
 #+4::mgr.moveWindowToDesktop(, 4)
+#^+Left::mgr.moveWindowToDesktop(,, -1)
+#^+Right::mgr.moveWindowToDesktop(,, +1)
 #,::mgr.switchToWorkArea(, -1)
 #.::mgr.switchToWorkArea(, +1)
+#Enter::mgr.moveWindowToWorkArea()
 #+,::mgr.moveWindowToWorkArea(,, -1)
 #+.::mgr.moveWindowToWorkArea(,, +1)
+
+;; bug.n x.min
+;#+q::mgr.moveWindowToPosition(, 1)
+;#+w::mgr.moveWindowToPosition(, 2)
+;#+e::mgr.moveWindowToPosition(, 3)
+;#+a::mgr.moveWindowToPosition(, 4)
+;#+s::mgr.moveWindowToPosition(, 5)
+;#+d::mgr.moveWindowToPosition(, 6)
+;#+y::mgr.moveWindowToPosition(, 7)
+;#+x::mgr.moveWindowToPosition(, 8)
+;#+c::mgr.moveWindowToPosition(, 9)
 
 #+b::mgr.toggleUserInterfaceBar()
 #+d::mgr.toggleWindowHasCaption()
 #+Space::mgr.activateWindowsTaskbar()
 
-#^d::logger.setLevel(, -1)
-#^+d::logger.setLevel(, +1)
+#^l::logger.setLevel(, -1)
+#^+l::logger.setLevel(, +1)
+#+l::logger.writeCacheToFile(A_WorkingDir . "\..\..\bug.n-log.md")
 #^q::ExitApp
 #^r::Reload

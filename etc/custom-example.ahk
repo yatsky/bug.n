@@ -3,7 +3,7 @@
 
 This file should include (`#Include`)
 
-* 1 of the modules\configuration\*.ahk files
+* one of the modules\configuration\*.ahk files
 * selected modules\layouts\*-layout.ahk files
 * selected modules\user-interfaces\*-user-interface.ahk files
 

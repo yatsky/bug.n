@@ -1,6 +1,6 @@
 /*
 :title:     bug.n/desktop-manager
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
@@ -8,7 +8,7 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 */
 
 class DesktopManager {
-  __New(funcObject_1, funcObject_2) {
+  __New(funcObject_1, funcObject_2 := "") {
     ;; `funcObject_1` is the function object for "_onTaskbarCreated", `funcObject_2` for "_onDesktopChange".
     Global app, logger
     
@@ -32,9 +32,11 @@ class DesktopManager {
     OnMessage(DllCall("user32\RegisterWindowMessage", "Str", "TaskbarCreated"), funcObject_1)
     logger.info("Window message <b>TaskbarCreated</b> registered.", "DesktopManager.__New")
     
-    DllCall(this.registerPostMessageHookProc, "Int", app.windowId, "Int", 0x1400 + 30)
-    OnMessage(0x1400 + 30, funcObject_2)
-    logger.info("Post message hook registered to window with id <mark>" . app.windowId . "</mark>: desktop switched.", "DesktopManager.__New")
+    If (funcObject_2 != "") {
+      DllCall(this.registerPostMessageHookProc, "Int", app.windowId, "Int", 0x1400 + 30)
+      OnMessage(0x1400 + 30, funcObject_2)
+      logger.info("Post message hook registered to window with id <mark>" . app.windowId . "</mark>: desktop switched.", "DesktopManager.__New")
+    }
   }
   
   __Delete() {

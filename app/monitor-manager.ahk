@@ -1,6 +1,6 @@
 /*
 :title:     bug.n/monitor-manager
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
@@ -8,7 +8,7 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 */
 
 class MonitorManager {
-  __New(funcObject) {
+  __New(funcObject := "") {
     Global const, logger
     
     this.monitors := []
@@ -30,8 +30,10 @@ class MonitorManager {
     logger.info(this.monitors.Length() . " display monitor" . (this.monitors.Length() == 1 ? "" : "s") . " found.", "MonitorManager.__New")
     this.enumAutoHotkeyMonitors()
     
-    OnMessage(const.WM_DISPLAYCHANGE, funcObject)
-    logger.info("Window message <b>WM_DISPLAYCHANGE</b> registered.", "MonitorManager.__New")
+    If (funcObject != "") {
+      OnMessage(const.WM_DISPLAYCHANGE, funcObject)
+      logger.info("Window message <b>WM_DISPLAYCHANGE</b> registered.", "MonitorManager.__New")
+    }
   }
   
   enumAutoHotkeyMonitors() {
@@ -64,6 +66,9 @@ class MonitorManager {
       
       SysGet, rect, MonitorWorkArea, % i
       this.monitors[i].monitorWorkArea := New Rectangle(rectLeft, rectTop, rectRight - rectLeft, rectBottom - rectTop)
+      logger.debug("Work area for monitor with key <mark>" . key . "</mark> added"
+				. " (x: <mark>" . this.monitors[i].monitorWorkArea.x . "</mark>, y: <mark>" . this.monitors[i].monitorWorkArea.y . "</mark>"
+				. ", w: <mark>" . this.monitors[i].monitorWorkArea.w . "</mark>, h: <mark>" . this.monitors[i].monitorWorkArea.h . "</mark>).", "MonitorManager.enumAutoHotkeyMonitors")
     }
     SysGet, i, MonitorPrimary
     this.monitors[i].isPrimary    := True
@@ -75,7 +80,7 @@ class MonitorManager {
     __New(index, handle, rectLeft, rectTop, rectRight, rectBottom) {
       Global logger
       
-      this.handle      := handle
+      this.handle      := Format("0x{:x}", Abs(handle))
       this.index       := index
       this.aIndex      := 0
       this.isPrimary   := False
@@ -95,7 +100,9 @@ class MonitorManager {
       this.scaleX := this.dpiX / 96
       this.scaleY := this.dpiY / 96
       
-      logger.info("Monitor with key <mark>" . this.key . "</mark> added at index <mark>" . this.index . "</mark>.", "Monitor.__New")
+      logger.info("Monitor with key <mark>" . this.key . "</mark> added at index <mark>" . this.index . "</mark> (<mark>" . this.handle . "</mark>)"
+				. " (x: <mark>" . this.x . "</mark>, y: <mark>" . this.y . "</mark>, w: <mark>" . this.w . "</mark>, h: <mark>" . this.h . "</mark>"
+				. ", scale: <mark>" . Round(this.scaleX * 100) . "</mark>/ <mark>" . Round(this.scaleY * 100) . "</mark>%).", "Monitor.__New")
     }
     
     getDpiForMonitor() {

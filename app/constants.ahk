@@ -1,6 +1,6 @@
 /*
 :title:     bug.n/constants
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
@@ -31,6 +31,12 @@ class Constants {
     
     ;; Windows CONSTANTS - Monitor
     this.SPI_SETWORKAREA    := 0x2F
+    this.SM_CXSCREEN        := 0
+    this.SM_CYSCREEN        := 1
+    this.SM_CXFULLSCREEN    := 16
+    this.SM_CYFULLSCREEN     := 17
+    this.SM_CXMAXIMIZED      := 61
+    this.SM_CYMAXIMIZED     := 62
     
     ;; Windows CONSTANTS - GUI
     this.FEATURE_DISABLE_NAVIGATION_SOUNDS := 21

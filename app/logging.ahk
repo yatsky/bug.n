@@ -1,6 +1,6 @@
 /*
 :title:     bug.n/logging
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
@@ -71,6 +71,26 @@ class Logging {
     If (level != this.level) {
       this.level := level
       this.log("Level set to <mark>" . this.labels[level + 1] . "</mark>.", "Logging.setLevel")
+    }
+  }
+  
+  writeCacheToFile(filename := "") {
+    If (filename == "") {
+      FormatTime, timestamp, , % this.timeFormat
+      FileSelectFile, filename, % "S26", % A_WorkingDir . "\..\bug.n-log_" . timestamp . ".md", % "bug.n - Write Cache to File"
+    }
+    If (filename != "") {
+      text := ""
+      For i, item in this.cache {
+        ;; timestamp, level, src, msg
+        text .= Format("{:19}", item[1]) . " "
+              . Format("{:-8}", item[2]) . " "
+              . (item[3] != "" ? "_" . item[3] . "_" : "") . " "
+              . item[4] . "`n"
+      }
+      FileDelete, % filename
+      FileAppend, % text, % filename
+      Run, % "open " . filename
     }
   }
 }

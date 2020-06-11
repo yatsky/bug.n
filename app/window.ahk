@@ -1,6 +1,6 @@
 /*
 :title:     bug.n/window
-:copyright: (c) 2018-2019 by joten <https://github.com/joten>
+:copyright: (c) 2018-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
@@ -136,12 +136,15 @@ class Window extends Rectangle {
   hasCaption[] {
     get {
       Global const
+      WinGet, winStyle, Style, % "ahk_id " . this.id
+      this.style := winStyle
       Return, (this.style & const.WS_CAPTION)
     }
   }
   
   information[] {
     get {
+      this.getProperties(True)
       Return, "Id:    `t" . this.id
         . "`nTitle:   `t" . SubStr(this.title, 1, 51) . (StrLen(this.title) > 51 ? "..." : "")
         . "`nClass:   `t" . this.class
@@ -152,13 +155,13 @@ class Window extends Rectangle {
         . "`nProcess Name: `t" . this.pName
         . "`nProcess Path: `t" . SubStr(this.pPath, 1, 46) . (StrLen(this.pPath) > 46 ? "..." : "")
         . "`n"
-        . "`nHas Caption:      `t" . (this.hasCaption ? "yes" : "no")
-        . "`nIs App Window:    `t" . (this.isAppWindow ? "yes" : "no")
-        . "`nIs Child:         `t" . (this.isChild ? "yes" : "no")
-        . "`nIs Cloaked:       `t" . (this.isCloaked ? "yes" : "no")
-        . "`nIs Elevated:      `t" . (this.isElevated ? "yes" : "no")
-        . "`nIs Ghost:         `t" . (this.isGhost ? "yes" : "no")
-        . "`nIs Popup:         `t" . (this.isPopup ? "yes" : "no")
+        . "`nHas Caption:      `t" . (this.hasCaption   ? "yes" : "no")
+        . "`nIs App Window:    `t" . (this.isAppWindow  ? "yes" : "no")
+        . "`nIs Child:         `t" . (this.isChild      ? "yes" : "no")
+        . "`nIs Cloaked:       `t" . (this.isCloaked    ? "yes" : "no")
+        . "`nIs Elevated:      `t" . (this.isElevated   ? "yes" : "no")
+        . "`nIs Ghost:         `t" . (this.isGhost      ? "yes" : "no")
+        . "`nIs Popup:         `t" . (this.isPopup      ? "yes" : "no")
         . "`nIs Min/Maximized: `t" . (this.minMax == -1 ? "min" : this.minMax == 1 ? "max" : "no")
         . "`n"
         . "`nIs Floating:      `t" . (this.isFloating ? "yes" : "no")

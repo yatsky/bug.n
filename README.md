@@ -13,8 +13,10 @@ for the Explorer shell of Microsoft Windows. It is written in the scripting lang
 * [AutoHotkey](https://www.autohotkey.com/download/ahk-install.exe) Unicode 64-bit 1.1.10 or higher
 * [bug.n](https://github.com/fuhsjr00/bug.n/releases/latest) 10
 
-Extract the downloaded release file anywhere you like and run the main script (`src\main.ahk`) 
-with AutoHotkey; the `src` directory should be the working directory.
+Extract the downloaded release file anywhere you like and run the main script (`app\main.ahk`) 
+with AutoHotkey (The `app` directory should be the working directory.) or simply start 
+`run-bug.n.exe`, which will run the main script with the 64-bit executable of the installed 
+AutoHotkey program.
 
 ### Documentation
 
