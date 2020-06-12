@@ -17,6 +17,7 @@ class Window extends Rectangle {
     this.desktop := ""
     this.isFloating := True
     this.workArea := ""
+    this.workGroup := ""
     
     DetectHiddenWindows, On
     WinGetClass, winClass, % "ahk_id " . this.id

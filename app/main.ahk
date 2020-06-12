@@ -79,5 +79,6 @@ exitApp() {
 #Include, %A_ScriptDir%\system-status.ahk
 #Include, %A_ScriptDir%\window.ahk
 #Include, %A_ScriptDir%\work-area.ahk
+#Include, %A_ScriptDir%\work-group.ahk
 #Include, %A_ScriptDir%\modules\user-interfaces\work-area-user-interface.ahk
 #Include, %A_ScriptDir%\..\etc\custom.ahk

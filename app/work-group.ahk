@@ -1,5 +1,5 @@
 /*
-:title:     bug.n-x.min/work-group
+:title:     bug.n/work-group
 :copyright: (c) 2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 

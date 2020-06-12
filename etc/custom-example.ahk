@@ -42,6 +42,14 @@ class Customizations {
                          , {symbol: "[]=", name: "DwmTileLayout", mfact: 0.65, nmaster: 1}
                          , {symbol: "TTT", name: "DwmBottomStackLayout", mfact: 0.55, nmaster: 1}
                          , {symbol: "><>", name: "FloatingLayout"}]
+    ;; bug.n x.min
+    cfg.positions[11] := [  0,   0,  70, 100]	;; left 0.70
+    cfg.environments := {ofc: [{id: "Kalender.* ahk_exe OUTLOOK.EXE",                    workGroup: 1}
+                             , {id: "Posteingang.* ahk_exe OUTLOOK.EXE",                               position: 10}
+                             , {id: ".*Mozilla Firefox ahk_exe firefox.exe",             workGroup: 2, position: 10}]
+                       , dev: [{id: ".*bug\.n.* ahk_exe explorer.exe",       desktop: 2, workGroup: 1}
+                             , {id: ".*Textadept.* ahk_exe textadept.exe",   desktop: 2,               position: 11}]}
+		
     cfg.defaultSystemStatusBarItems := {volume: 22, date: 23, time: 24}
     cfg.windowManagementRules := [{windowProperties: {desktop: 0}, break: True}   ;; Exclude hidden (?) windows.
       , {windowProperties: {class: "#32770", isPopup: True}, break: True}         ;; Exclude pop-up windows.
@@ -75,7 +83,7 @@ class Customizations {
     }
     
     
-    logger.info("Custom configuration loaded.", "Customizations.__New")
+    logger.info("<b>Custom</b> configuration loaded.", "Customizations.__New")
   }
   
   _init() {
@@ -89,4 +97,30 @@ class Customizations {
     funcObject := ObjBindMethod(mgr, "switchToLayout", (A_ComputerName == "GD-000358-NBK00" ? 3 : 2))
     Hotkey, #t, %funcObject%
   }
+  
+  ;; bug.n x.min
+  setEnvironment(key) {
+    Global mgr
+
+    SetTitleMatchMode, RegEx
+    For i, object in this.environments[key] {
+      WinGet, winId, ID, % object.id
+      winId := Format("0x{:x}", winId)
+      If (object.HasKey("desktop")) {
+        mgr.moveWindowToDesktop(winId, object.desktop)
+      }
+      If (object.HasKey("workGroup")) {
+        mgr.moveWindowToWorkGroup(winId, object.workGroup)
+      }
+      If (object.HasKey("position")) {
+        mgr.moveWindowToPosition(winId, object.position)
+      }
+    }
+    SetTitleMatchMode, 3
+  }
 }
+
+;; bug.n x.min
+; #+f::mgr.moveWindowToPosition(, 11)
+; #^d::custom.setEnvironment("dev")
+; #^o::custom.setEnvironment("ofc")
