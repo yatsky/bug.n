@@ -1,3 +1,12 @@
+/*
+:title:     bug.n X/etc/custom-example
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
+:license:   GNU General Public License version 3
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
+
 .w3-bar-item {padding: 0.5ex 1.0ex !important;}
 .w3-bar-item > span {font-family: "Roboto Mono", monospace; font-size: 90%}
 .app-bar-item-active {background-color: #005577 !important;}

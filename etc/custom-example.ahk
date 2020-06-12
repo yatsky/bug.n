@@ -1,5 +1,10 @@
 /*
-:title:     bug.n/custom
+:title:     bug.n X/etc/custom-example
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
+:license:   GNU General Public License version 3
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 This file should include (`#Include`)
 
@@ -7,13 +12,12 @@ This file should include (`#Include`)
 * selected modules\layouts\*-layout.ahk files
 * selected modules\user-interfaces\*-user-interface.ahk files
 
-and any additional custom code (functions or modules). This file itself is included at 
-the end of the main script and after the auto-execute section.
-The class `Customizations` is instantiated after the class `Configuration` given by 
-`#Include, %A_ScriptDir%\modules\configuration\*.ahk`, which allows overwriting 
-configuration variables by putting them in `__New`. The function 
-`Customizations._init` is called at the end of the auto-execute section, therewith 
-commands can be executed after bug.n started by putting them in there.
+and any additional custom code (functions or modules). This file itself is included at the end of 
+the main script and after the auto-execute section. The class `Customizations` is instantiated 
+after the class `Configuration` given by `#Include, %A_ScriptDir%\modules\configuration\*.ahk`, 
+which allows overwriting configuration variables by putting them in `__New`. The function `_init` 
+is called at the end of the auto-execute section, therewith commands can be executed after bug.n 
+started by putting them in there.
 */
 
 #Include, %A_ScriptDir%\modules\configuration\default.ahk
@@ -22,7 +26,6 @@ commands can be executed after bug.n started by putting them in there.
 #Include, %A_ScriptDir%\modules\layouts\dwm-monocle-layout.ahk
 #Include, %A_ScriptDir%\modules\layouts\dwm-tile-layout.ahk
 #Include, %A_ScriptDir%\modules\layouts\floating-layout.ahk
-#Include, %A_ScriptDir%\modules\layouts\i3wm-layout.ahk
 ;; If you remove one of the `layouts\*-layout.ahk` includes above and are using the `configuration\default`, 
 ;; you will also have to remove the corresponding item from `cfg.defaultLayouts` by redefining it below.
 
@@ -44,11 +47,11 @@ class Customizations {
                          , {symbol: "><>", name: "FloatingLayout"}]
     ;; bug.n x.min
     cfg.positions[11] := [  0,   0,  70, 100]	;; left 0.70
-    cfg.environments := {ofc: [{id: "Kalender.* ahk_exe OUTLOOK.EXE",                    workGroup: 1}
-                             , {id: "Posteingang.* ahk_exe OUTLOOK.EXE",                               position: 10}
-                             , {id: ".*Mozilla Firefox ahk_exe firefox.exe",             workGroup: 2, position: 10}]
-                       , dev: [{id: ".*bug\.n.* ahk_exe explorer.exe",       desktop: 2, workGroup: 1}
-                             , {id: ".*Textadept.* ahk_exe textadept.exe",   desktop: 2,               position: 11}]}
+    cfg.environments := {office: [{id: "Kalender.* ahk_exe OUTLOOK.EXE",                    workGroup: 1}
+                                , {id: "Posteingang.* ahk_exe OUTLOOK.EXE",                               position: 10}
+                                , {id: ".*Mozilla Firefox ahk_exe firefox.exe",             workGroup: 2, position: 10}]
+                          , dev: [{id: ".*bug\.n.* ahk_exe explorer.exe",       desktop: 2, workGroup: 1}
+                                , {id: ".*Textadept.* ahk_exe textadept.exe",   desktop: 2,               position: 11}]}
 		
     cfg.defaultSystemStatusBarItems := {volume: 22, date: 23, time: 24}
     cfg.windowManagementRules := [{windowProperties: {desktop: 0}, break: True}   ;; Exclude hidden (?) windows.
@@ -123,4 +126,4 @@ class Customizations {
 ;; bug.n x.min
 ; #+f::mgr.moveWindowToPosition(, 11)
 ; #^d::custom.setEnvironment("dev")
-; #^o::custom.setEnvironment("ofc")
+; #^o::custom.setEnvironment("office")

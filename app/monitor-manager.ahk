@@ -1,5 +1,5 @@
 /*
-:title:     bug.n/monitor-manager
+:title:     bug.n X/app/monitor-manager
 :copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 

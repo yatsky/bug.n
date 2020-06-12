@@ -1,6 +1,6 @@
 /*
-:title:     bug.n/layouts/dwm-tile-layout
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:title:     bug.n X/app/modules/layouts/dwm-tile-layout
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 

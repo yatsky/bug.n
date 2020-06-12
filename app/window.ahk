@@ -1,5 +1,5 @@
 /*
-:title:     bug.n/window
+:title:     bug.n X/app/window
 :copyright: (c) 2018-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 

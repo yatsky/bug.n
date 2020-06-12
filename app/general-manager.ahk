@@ -1,5 +1,5 @@
 /*
-:title:     bug.n/general-manager
+:title:     bug.n X/app/general-manager
 :copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 

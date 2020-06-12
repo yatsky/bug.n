@@ -1,6 +1,6 @@
 /*
-:title:     bug.n/main
-:copyright: (c) 2019 by joten <https://github.com/joten>
+:title:     bug.n X/app/main
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
@@ -30,7 +30,7 @@ SetWinDelay,       0          ;; `WinDelay` may be set to a different value e.g.
                               ;; , highlight = <mark>text</mark>, italic = <i>text</i>
                               ;; , strikethrough = <s>text</s>, underline = <u>text</u>
   const := New Constants()
-  app := New Application("bug.n", "10.0.0")
+  app := New Application("bug.n X", "0.0.3")
   cfg := New Configuration()
   custom := New Customizations()
   

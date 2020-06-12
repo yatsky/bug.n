@@ -1,5 +1,5 @@
 /*
-:title:     bug.n/configuration/default
+:title:     bug.n X/app/modules/configuration/default
 :copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 

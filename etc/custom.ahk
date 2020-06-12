@@ -1,5 +1,10 @@
 /*
-:title:     bug.n/custom
+:title:     bug.n X/etc/custom
+:copyright: (c) 2019-2020 by joten <https://github.com/joten>
+:license:   GNU General Public License version 3
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 This file should include (`#Include`)
 
@@ -7,13 +12,12 @@ This file should include (`#Include`)
 * selected modules\layouts\*-layout.ahk files
 * selected modules\user-interfaces\*-user-interface.ahk files
 
-and any additional custom code (functions or modules). This file itself is included at 
-the end of the main script and after the auto-execute section.
-The class `Customizations` is instantiated after the class `Configuration` given by 
-`#Include, %A_ScriptDir%\modules\configuration\*.ahk`, which allows overwriting 
-configuration variables by putting them in `__New`. The function 
-`Customizations._init` is called at the end of the auto-execute section, therewith 
-commands can be executed after bug.n started by putting them in there.
+and any additional custom code (functions or modules). This file itself is included at the end of 
+the main script and after the auto-execute section. The class `Customizations` is instantiated 
+after the class `Configuration` given by `#Include, %A_ScriptDir%\modules\configuration\*.ahk`, 
+which allows overwriting configuration variables by putting them in `__New`. The function `_init` 
+is called at the end of the auto-execute section, therewith commands can be executed after bug.n 
+started by putting them in there.
 */
 
 #Include, %A_ScriptDir%\modules\configuration\default.ahk

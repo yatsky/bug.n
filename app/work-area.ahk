@@ -1,6 +1,6 @@
 /*
-:title:     bug.n/work-area
-:copyright: (c) 2018-2019 by joten <https://github.com/joten>
+:title:     bug.n X/app/work-area
+:copyright: (c) 2018-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 

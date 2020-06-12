@@ -1,5 +1,5 @@
 /*
-:title:     bug.n/constants
+:title:     bug.n X/app/constants
 :copyright: (c) 2019-2020 by joten <https://github.com/joten>
 :license:   GNU General Public License version 3
 
