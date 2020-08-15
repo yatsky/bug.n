@@ -45,6 +45,7 @@ class Configuration {
     this.messagesViewUpdateInterval := 6000
     this.userInterfaces := [{name: "TrayIconUserInterface", tip: app.name, icon: app.logo}]
     this.onMessageDelay := {shellEvent: 0, desktopChange: 0}
+    this.disabledFeatures := {shellHook: False, webInterfaces: False, appCalls: False}
     
     ;; The rules in `windowManagementRules` are processed in the order of the array.
     ;; A `windowManagementRules` array item should be an object, which may contain the following keys: 

@@ -29,7 +29,7 @@ class GeneralManager {
     this.dMgr.switchToDesktop(A)
     
     ;; bug.n x.min: Initialize work groups.
-    Loop, % this.dMgr.getDesktopCount() {
+    ; Loop, % this.dMgr.getDesktopCount() {
     For i, dsk in this.desktops {
       this.workGroups[i] := []
       For j, rect in dsk.workAreas {
